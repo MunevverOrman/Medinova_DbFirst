@@ -9,7 +9,7 @@ namespace Medinova.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        MedinovaContext context = new MedinovaContext();
+        MedinovaDbEntities1 context = new MedinovaDbEntities1();
 
         public ActionResult Login()
         {
@@ -24,16 +24,33 @@ namespace Medinova.Controllers
             if (user == null)
             {
                 ModelState.AddModelError("", "Kullanıcı veya şifre hatalı.");
-
                 return View(model);
             }
 
             FormsAuthentication.SetAuthCookie(user.UserName, false);
-            Session["userName"]=user.UserName;
-            Session["fullName"]=user.FirstName+" "+ user.LastName;
-            return RedirectToAction("Index", "AdminAbout");
+            Session["userName"] = user.UserName;
+            Session["fullName"] = user.FirstName + " " + user.LastName;
 
+            var userRole = context.Users
+                         .Where(x => x.UserId == user.UserId)
+                         .SelectMany(x => x.Roles)
+                         .Select(x => x.RoleName)
+                         .FirstOrDefault();
 
+            Session["role"] = userRole;
+
+            switch (userRole)
+            {
+                case "Admin":
+                    return RedirectToAction("Index", "AdminAbout");
+                case "Doktor":
+                    return RedirectToAction("Index", "Doktor");
+                case "Hasta":
+                    return RedirectToAction("Index", "Hasta");
+                default:
+                    ModelState.AddModelError("", "Rolünüz tanımlı değil.");
+                    return View(model);
+            }
         }
         public ActionResult Logout()
         {

@@ -13,10 +13,10 @@ namespace Medinova.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MedinovaContext : DbContext
+    public partial class MedinovaDbEntities1 : DbContext
     {
-        public MedinovaContext()
-            : base("name=MedinovaContext")
+        public MedinovaDbEntities1()
+            : base("name=MedinovaDbEntities1")
         {
         }
     
@@ -25,13 +25,16 @@ namespace Medinova.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AboutItem> AboutItems { get; set; }
-        public virtual DbSet<About> Abouts { get; set; }
-        public virtual DbSet<Appointment> Appointments { get; set; }
-        public virtual DbSet<Banner> Banners { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Doctor> Doctors { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<AboutItems> AboutItems { get; set; }
+        public virtual DbSet<Abouts> Abouts { get; set; }
+        public virtual DbSet<Appointments> Appointments { get; set; }
+        public virtual DbSet<Banners> Banners { get; set; }
+        public virtual DbSet<Departments> Departments { get; set; }
+        public virtual DbSet<Doctors> Doctors { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Services> Services { get; set; }
+        public virtual DbSet<AppointmentSettings> AppointmentSettings { get; set; }
     }
 }

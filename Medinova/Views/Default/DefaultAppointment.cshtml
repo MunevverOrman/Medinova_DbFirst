@@ -1,26 +1,23 @@
-﻿@model Medinova.Models.Appointment
+﻿@{
+    var setting = ViewBag.AppointmentSetting as Medinova.Models.AppointmentSettings;
+}
 
 <div class="container-fluid bg-primary my-5 py-5">
     <div class="container py-5">
         <div class="row gx-5">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="mb-4">
-                    <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Appointment</h5>
-                    <h1 class="display-4">Make An Appointment For Your Family</h1>
+                    <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Randevu</h5>
+                    <h1 class="display-4">@setting?.Title</h1>
                 </div>
-                <p class="text-white mb-5">
-                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum.
-                    Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero
-                    eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit.
-                    Sea dolore sanctus sed et. Takimata takimata sanctus sed.
-                </p>
-                <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="#!">Find Doctor</a>
-                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="#!">Read More</a>
+                <p class="text-white mb-5">@setting?.Description</p>
+                <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="#!">Doktor Bul</a>
+                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="#!">Daha Fazla</a>
             </div>
             <div class="col-lg-6">
                 <div class="bg-white text-center rounded p-5">
                     <h1 class="mb-4">Randevu Oluştur</h1>
-                    <form method="post" action="/Default/MakeAppointment">
+                    <form id="appointmentForm" method="post" action="/Default/MakeAppointment">
                         <div class="row g-3">
                             <div class="col-12 col-sm-6">
                                 <label>Bölüm Seçiniz</label>
@@ -47,11 +44,11 @@
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="date" id="date" data-target-input="nearest">
-                                    @Html.DropDownList("AppointmentDate",(List<SelectListItem>)ViewBag.Dates, "---Tarih seçiniz---", new{@class="form-control"})
+                                    @Html.DropDownList("AppointmentDate", (List<SelectListItem>)ViewBag.Dates, "---Tarih seçiniz---", new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <div class="time" id="time" data-target-input="nearest">                          
+                                <div class="time" id="time" data-target-input="nearest">
                                     <select id="AppointmentTime" name="AppointmentTime" class="form-control bg-light border-0" style="height: 55px;">
                                         <option selected>---Önce Tarih Seçiniz---</option>
                                     </select>
@@ -73,21 +70,17 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
+        // Departman değişince doktorları getir
         $("#DepartmentId").change(function () {
-
             var selectedDepId = $(this).val();
-
             var doctorDropdown = $("#DoctorId");
-
             var timeDropdown = $("#AppointmentTime");
 
-         
-
             $('#AppointmentDate').val('').trigger('change');
-
             timeDropdown.empty();
 
             $.ajax({
@@ -98,28 +91,22 @@
                 success: function (data) {
                     doctorDropdown.empty();
                     timeDropdown.empty();
-
                     $.each(data, function (i, doctor) {
-
-                        doctorDropdown.append($('<option> </option>').val(doctor.Value).html(doctor.Text));
+                        doctorDropdown.append($('<option></option>').val(doctor.Value).html(doctor.Text));
                     });
                 }
-            })
+            });
+        });
 
-        })
-
+        // Tarih değişince müsait saatleri getir
         $("#AppointmentDate").change(function () {
-
             var selectedDate = $(this).val();
-
             var selectedDoctorId = $("#DoctorId").val();
-
             var timeDropdown = $("#AppointmentTime");
 
             if (selectedDate === '' && selectedDoctorId === '') {
-                timeDropdown, append('<option>-----önce doktoru ve tarihi seçin---</option>');
+                timeDropdown.append('<option>-----önce doktoru ve tarihi seçin---</option>');
             }
-
 
             $.ajax({
                 url: '/Default/GetAvailableHours',
@@ -127,39 +114,58 @@
                 dataType: 'json',
                 data: { selectedDate: selectedDate, doctorId: selectedDoctorId },
                 success: function (data) {
-
                     timeDropdown.empty();
-
                     $.each(data, function (i, item) {
-
-                        var isDisabled = false;
                         var optionText = item.Time;
+                        var isDisabled = false;
 
                         if (item.IsBooked) {
                             optionText += " (Dolu)";
                             isDisabled = true;
                         }
 
-                        var option = $('<option> </option>').val(item.Time).html(optionText);
-
+                        var option = $('<option></option>').val(item.Time).html(optionText);
                         if (isDisabled) {
                             option.prop('disabled', true);
                         }
 
                         timeDropdown.append(option);
                         timeDropdown.prop('disabled', false);
-
                     });
-
                 }
             });
-
         });
 
+        // Form submit - SweetAlert
+        $("#appointmentForm").submit(function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Randevunuz Onaylandı',
+                html: `
+            <div style="text-align:center; font-family: 'Segoe UI', sans-serif;">
+                <p style="font-size:16px; color:#2c3e50; margin-bottom:10px;">
+                    Randevunuz başarıyla oluşturulmuştur.<br>
+                    En kısa sürede sizinle iletişime geçilecektir.
+                </p>
+                <hr style="border: 1px solid #eee; margin: 15px 0;">
+                <div style="background:#fff8e1; border-left: 4px solid #f39c12; padding: 10px 15px; border-radius:4px; text-align:left;">
+                    <p style="margin:0; color:#7d6608; font-size:14px;">
+                        <strong>⚠️ Önemli Hatırlatma</strong><br>
+                        Randevu saatinize gelemeyecekseniz, lütfen randevunuzu <strong>en az 2 saat önce</strong> iptal ediniz.
+                        Böylece başka hastalarımız bu saatten yararlanabilir.
+                    </p>
+                </div>
+            </div>
+        `,
+                confirmButtonText: '✔ Tamam, Anladım',
+                confirmButtonColor: '#0d6efd',
+                width: '480px'
+            }).then(function () {
+                $("#appointmentForm")[0].submit(); // ✅ Bu satır eksikti!
+            });
+        });
 
     });
-
-
-
-
 </script>

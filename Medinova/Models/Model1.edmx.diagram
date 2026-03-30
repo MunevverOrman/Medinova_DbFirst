@@ -4,17 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d9e65f4ca439496da46e5a14be71bb68" Name="Diagram1">
-        <EntityTypeShape EntityType="MedinovaDbModel.AboutItem" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MedinovaDbModel.About" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MedinovaDbModel.Appointment" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MedinovaDbModel.Banner" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MedinovaDbModel.Department" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MedinovaDbModel.Doctor" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MedinovaDbModel.sysdiagram" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="MedinovaDbModel.FK_Appointments_Doctors" ManuallyRouted="false" />
-        <AssociationConnector Association="MedinovaDbModel.FK_Doctors_Departments" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MedinovaDbModel.User" Width="1.5" PointX="7.375" PointY="1.5" />
+      <Diagram DiagramId="44db9e2671ab4556ba957abe5f640db9" Name="Diagram1">
+        <EntityTypeShape EntityType="MedinovaContext.AboutItems" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Abouts" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Appointments" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Banners" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Departments" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Doctors" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Roles" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedinovaContext.Users" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="MedinovaContext.FK_Appointments_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="MedinovaContext.FK_Doctors_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="MedinovaContext.UserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MedinovaContext.sysdiagrams" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="MedinovaContext.Services" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="MedinovaContext.AppointmentSettings" Width="1.5" PointX="0.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

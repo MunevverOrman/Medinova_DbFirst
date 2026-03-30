@@ -12,18 +12,18 @@ namespace Medinova.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Department
+    public partial class Departments
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Department()
+        public Departments()
         {
-            this.Doctors = new HashSet<Doctor>();
+            this.Doctors = new HashSet<Doctors>();
         }
     
         public int DepartmentId { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Doctor> Doctors { get; set; }
+        public virtual ICollection<Doctors> Doctors { get; set; }
     }
 }

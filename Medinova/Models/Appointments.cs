@@ -12,11 +12,17 @@ namespace Medinova.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class About
+    public partial class Appointments
     {
-        public int AboutId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string ImageUrl { get; set; }
+        public int AppointmentId { get; set; }
+        public string FullName { get; set; }
+        public Nullable<int> DoctorId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public string AppointmentTime { get; set; }
+        public Nullable<System.DateTime> AppointmentDate { get; set; }
+    
+        public virtual Doctors Doctors { get; set; }
     }
 }

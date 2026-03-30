@@ -12,10 +12,11 @@ namespace Medinova.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AboutItem
+    public partial class Banners
     {
-        public int AboutItemId { get; set; }
-        public string Icon { get; set; }
-        public string Name { get; set; }
+        public int BannerId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
